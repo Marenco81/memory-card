@@ -1,10 +1,34 @@
+import { GameHeader } from "./components"
+
+const cardValues = [
+  "🍔",
+  "🍕",
+  "🍗",
+  "🥗",
+  "🥑",
+  "🍟",
+  "🍣",
+  "🍩",
+  "🍔",
+  "🍕",
+  "🍗",
+  "🥗",
+  "🥑",
+  "🍟",
+  "🍣",
+  "🍩",
+];
 
 function App() {
   
   return (
-    <>
-      Hello World
-    </>
+    <div className="app">
+      <GameHeader score={3} moves={10}></GameHeader>
+
+      <div className="card-grid">
+
+      </div>
+    </div>
   )
 }
 
