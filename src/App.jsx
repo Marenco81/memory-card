@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, GameHeader } from "./components"
+import { handleShuffle } from "./utils/handleShufle";
 
 const cardValues = [
   "🍔",
@@ -26,11 +27,14 @@ function App() {
   const [matchedCards, setMatchedCards] = useState([]);
   const [score, setScore] = useState(0);
   const [moves, setMoves] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
 
   const initializeGame = () => {
     //Shuffle the cards
 
-    const finalCards = cardValues.map((value, index) => (
+    const shuffle = handleShuffle(cardValues);
+
+    const finalCards = shuffle.map((value, index) => (
       {
         id:index,
         value,
@@ -41,6 +45,11 @@ function App() {
     ));
 
       setCards(finalCards);
+      setMoves(0);
+      setScore(0);
+      setMatchedCards([]);
+      setFlippedCards([]);
+      setIsLocked(false);
   };
 
   useEffect(() => {
@@ -50,7 +59,7 @@ function App() {
   const handleCardClick = (card) => {
     // Don't allow click if already flipped, matched
 
-    if(card.isFlipped || card.isMatched) {
+    if(card.isFlipped || card.isMatched || isLocked || flippedCards.length === 2) {
       return;
     }
     //Update card flipepd state
@@ -69,6 +78,7 @@ function App() {
 
       // Check for match if two cards are flipped
       if(flippedCards.length === 1) {
+        setIsLocked(true);
         const firstCard = cards[flippedCards[0]];
 
         if(firstCard.value === card.value) {
@@ -85,6 +95,7 @@ function App() {
             })
           );
             setFlippedCards([]);
+            setIsLocked(false);
           }, 500);
 
         } else {
@@ -100,6 +111,7 @@ function App() {
             });
             setCards(flippedBackCards);
             setFlippedCards([]);
+            setIsLocked(false);
           }, 1000);
         }
       }
@@ -109,7 +121,7 @@ function App() {
   
   return (
     <div className="app">
-      <GameHeader score={score} moves={moves}></GameHeader>
+      <GameHeader score={score} moves={moves} onReset={initializeGame}></GameHeader>
 
       <div className="cards-grid">
         {cards.map((card) => (
