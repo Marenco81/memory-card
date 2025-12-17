@@ -195,6 +195,12 @@ body {
   border: 2px solid rgba(126, 211, 33, 0.5);
 }
 
+.card.unMatched .card-back {
+  background: rgba(211, 68, 33, 0.2);
+  box-shadow: 0 0 20px rgba(211, 54, 33, 0.4);
+  border: 2px solid rgba(211, 68, 33, 0.5);
+}
+
 .card:hover:not(.matched):not(.flipped) .card-front {
   transform: scale(1.05);
 }
