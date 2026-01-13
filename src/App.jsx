@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, GameHeader } from "./components"
+import { Card, GameHeader, WinMessage } from "./components"
 import { handleShuffle } from "./utils/handleShufle";
 
 const cardValues = [
@@ -118,11 +118,14 @@ function App() {
 
       setMoves((moves) => moves + 1)
   };
+
+  const isGameCompleted = matchedCards.length === cardValues.length;
   
   return (
     <div className="app">
       <GameHeader score={score} moves={moves} onReset={initializeGame}></GameHeader>
 
+      {isGameCompleted && <WinMessage moves={moves}></WinMessage>}
       <div className="cards-grid">
         {cards.map((card) => (
           <Card 
